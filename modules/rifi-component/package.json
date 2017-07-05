@@ -1,0 +1,22 @@
+{
+  "name": "rifi-component",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test/*.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "browser-resolve": "^1.11.2",
+    "module-deps": "^4.1.1",
+    "pump": "^1.0.2",
+    "rifi-load": "file:../rifi-load",
+    "through2": "^2.0.3"
+  },
+  "devDependencies": {
+    "tap": "^10.7.0"
+  }
+}

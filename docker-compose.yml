@@ -1,0 +1,11 @@
+version: '3'
+services:
+  base: 
+    build: services/base
+  cmp:
+    build: services/cmp
+  child:
+    build: services/child-cmp
+  app:
+    build: services/app
+

@@ -1,0 +1,16 @@
+{
+  "name": "child-cmp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "component",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "date-time": "^2.1.0",
+    "rifi": "file:../../modules/rifi"
+  }
+}
