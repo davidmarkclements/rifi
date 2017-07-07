@@ -8,4 +8,6 @@ services:
     build: services/child-cmp
   app:
     build: services/app
+  srv:
+    build: services/srv
 

@@ -2,7 +2,11 @@
 
 const { join } = require('path')
 const rifi = require('rifi')
-const peers = ['192.168.1.111:9999']
+const peers = [require('os').networkInterfaces().en0[1].address + ':9999']
+
+const babelify = require('babelify').configure({
+  presets: ['babel-preset-es2015', 'babel-preset-react'].map(require.resolve)
+})
 
 const service = rifi({
   join: peers,
@@ -11,5 +15,6 @@ const service = rifi({
 
 service.component({
   name: 'cmp',
-  main: join(__dirname, 'component') 
+  main: join(__dirname, 'component'),
+  transform: [babelify]
 })

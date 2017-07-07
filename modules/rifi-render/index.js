@@ -12,7 +12,7 @@ const MODULE = 'rifi-render'
 
 module.exports = rifiRender 
 
-function rifiRender(peer, cache) {
+function rifiRender (peer, store) {
 
   return function render (name, cb) {
     
@@ -24,7 +24,7 @@ function rifiRender(peer, cache) {
       return
     }
 
-    const load = create.load(peer, cache)
+    const load = create.load(peer, store)
 
     load(name, (err, deps) => {
       if (err) return void cb(err)

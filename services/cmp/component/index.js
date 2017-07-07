@@ -1,26 +1,16 @@
 'use strict'
 
-const childCmp = require(':child-cmp')
+const React = require('react')
+const RemoteChildComponent = require(':child-cmp')
 
-module.exports = createComponent
+module.exports = Component
 
-function createComponent (ctx) {
-
-  const { render, dispatch } = ctx
-
-  const child = childCmp(ctx)
-
-  return (props) => {
-    
-    const { msg } = props
-    
-    return render `
-      <div>
-        <p> YO! Sup. </p>
-        ${child(props)}
-      </div>
-    `
-
-  }
-
+function Component(props) {
+  const { msg } = props
+  return (
+    <div>
+      <h1> This is <em>Component</em> </h1>
+      <RemoteChildComponent msg={msg}/>
+    </div>
+  )
 }

@@ -13,7 +13,7 @@ const MODULE = 'rifi'
 
 module.exports = rifi
 
-rifi.app = (opts = {}) => {
+rifi.serve = (opts = {}) => {
   opts.client = true
   return rifi(opts)
 }
@@ -36,21 +36,22 @@ function rifi (opts = {}) {
 
   const logger = peer.logger.child({MODULE})
 
-  const cache = new Map()
+  const store = new Map()
 
-  const component = create.component(peer, cache)
+  const component = create.component(peer, store)
   const view = component
-  const head = component
-  const load = create.load(peer, cache)
-  const bundle = create.bundle(peer, cache)
-  const render = create.render(peer, cache)
-  sync(peer, cache)
+  const app = component
+  const load = create.load(peer, store)
+  const bundle = create.bundle(peer, store)
+  const render = create.render(peer, store)
+  sync(peer, store)
   
   return {
     logger,
     peer,
+    store,
     view,
-    head,
+    app,
     component,
     load,
     bundle,
