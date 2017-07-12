@@ -1,18 +1,31 @@
 'use strict'
 
-const React = require('react')
-const dt = require('date-time')
+import React from ':react'
+import styled from 'styled-components'
+import dt from 'date-time'
 
-const anAction = (payload) => ({type: 'foo', payload})
+const Wrapper = styled.div `
+  border: 1px solid green;
+  margin: 0 auto;
+  padding: 1em;
+  padding-bottom: 2em;
+  margin-top: 1em; 
+`
+
+const Message = styled.div `
+  text-align: left;
+`
 
 module.exports = ChildComponent
 
 function ChildComponent(props) {
-  const { msg } = props
+  const { msgs = [] } = props
   return (
-    <div>
-      <h2> This is <em>ChildComponent</em> </h2>
-      <p> <span> { dt() }: </span> {msg} </p>
-    </div>
+    <Wrapper>
+      <h2> :child-cmp </h2>
+      <Message>
+        { msgs.map((msg) => (<p> <span> { dt() }: </span> {msg} </p>)) }
+      </Message>
+    </Wrapper>
   )
 }

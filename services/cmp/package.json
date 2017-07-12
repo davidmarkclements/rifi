@@ -14,7 +14,10 @@
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
     "react": "^15.6.1",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.1",
     "rifi": "file:../../modules/rifi",
-    "rifi-cmp": "file:../../modules/rifi"
+    "rifi-cmp": "file:../../modules/rifi",
+    "styled-components": "^2.1.1"
   }
 }

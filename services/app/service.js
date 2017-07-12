@@ -25,3 +25,13 @@ service.app({
   transform: [babelify]
 })
 
+service.module({
+  name: 'constants',
+  main: join(__dirname, 'constants'),
+  transform: [babelify]
+})
+
+service.module({
+  name: 'react', 
+  main: require.resolve('react')
+})

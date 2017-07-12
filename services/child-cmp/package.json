@@ -15,6 +15,7 @@
     "babelify": "^7.3.0",
     "date-time": "^2.1.0",
     "react": "^15.6.1",
-    "rifi": "file:../../modules/rifi"
+    "rifi": "file:../../modules/rifi",
+    "styled-components": "^2.1.1"
   }
 }

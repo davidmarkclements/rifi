@@ -41,6 +41,7 @@ function rifi (opts = {}) {
   const component = create.component(peer, store)
   const view = component
   const app = component
+  const module = component
   const load = create.load(peer, store)
   const bundle = create.bundle(peer, store)
   const render = create.render(peer, store)
@@ -51,6 +52,7 @@ function rifi (opts = {}) {
     peer,
     store,
     view,
+    module,
     app,
     component,
     load,

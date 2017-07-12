@@ -44,7 +44,8 @@ function rifiLoad (peer, cache) {
         return
       }
 
-      logger.debug(result, `got component response for ${name}`)
+      logger.debug(`got component response for ${name}`)
+      logger.trace(result, `got component response for ${name}`)
 
       cb(null, result && result.deps)
     })

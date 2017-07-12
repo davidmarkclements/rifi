@@ -18,3 +18,9 @@ service.component({
   main: join(__dirname, 'component'),
   transform: [babelify]
 })
+
+service.module({
+  name: 'cmp/reducer',
+  main: join(__dirname, 'component', 'reducer'),
+  transform: [babelify]
+})

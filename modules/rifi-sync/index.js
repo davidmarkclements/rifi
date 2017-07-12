@@ -20,7 +20,9 @@ function rifiSync(peer, cache) {
   peer.add('ns:rifi,cmd:replicate', (req, reply) => {
     const {name, deps} = req
     const logger = peer.logger.child({MODULE, component: name})
-    logger.debug({name, deps}, `adding deps for ${name} component`)
+    logger.debug(`adding deps for ${name} component`)
+    logger.trace({name, deps}, `adding deps for ${name} component`)
+
     cache.set(name, deps)
     reply(null, {ok: true, status: 'replicated'})
   })
@@ -28,7 +30,8 @@ function rifiSync(peer, cache) {
   peer.add('ns:rifi,cmd:upload', (req, reply) => {
     const {key, ns, cmd, name, deps} = req
     const logger = peer.logger.child({MODULE, component: name})
-    logger.debug({name, deps}, `adding deps for ${name} component`)
+    logger.debug(`adding deps for ${name} component`)
+    logger.trace({name, deps}, `adding deps for ${name} component`)
     cache.set(name, deps)
     const nextPeer = peer._hashring.next(key)
     if (nextPeer === null) {
