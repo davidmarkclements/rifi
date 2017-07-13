@@ -3,7 +3,9 @@
 const http = require('http')
 const rifi = require('rifi')
 const pump = require('pump')
-const peers = [require('os').networkInterfaces().en0[1].address + ':9999']
+const ifaces = require('os').networkInterfaces()
+const host = ifaces.en0 ? ifaces.en0[1].address : 'localhost'
+const peers = [host + ':9999']
 
 const serve = rifi.serve({
   join: peers,

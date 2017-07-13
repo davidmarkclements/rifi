@@ -6,7 +6,8 @@ import { createStore } from 'redux'
 import RemoteComponent from ':cmp'
 import reducer from ':cmp/reducer'
 
-const store = createStore(reducer, { msgs: ['Hello World! ']})
+const initialState = { msgs: ['Hello World!'] }
+const store = createStore(reducer, initialState)
 
 const App = () => <RemoteComponent/>
 

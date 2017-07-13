@@ -22,14 +22,15 @@ function rifi (opts = {}) {
 
   const config = {
     logger: opts.logger,
-    client: opts.client 
+    client: opts.client,
+    hashring: opts.hashring || {}
   }
   if (opts.join) {
     config.base = opts.join
   }
   if (opts.port) {
     config.port = opts.port 
-    config.hashring = {port: opts.port}
+    config.hashring.port = opts.port
   }
   const peer = upring(config)
   peer.logger.level = opts.logLevel || 'info'

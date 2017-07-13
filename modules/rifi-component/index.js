@@ -111,23 +111,32 @@ function rifiComponent (peer, store) {
 
     function resolve (id, parent, cb) {
       if (id[0] !== ':') return void bresolve(id, parent, cb)
+      if (attempts.serialize < 0) {
+        return void cb(Error('unable to get depdencies'))
+      }
       const component = id.substr(1)
       children.push(component)
       load(component, (err, deps) => {
-        attempts.serialize--
+        if (attempts.serialize < 0) {
+          attempts.serialize = MAX_RETRY
+          return void cb(Error('unable to get depdencies'))
+        } 
+
         if (err) {
           logger.error(err, `unable to get dependencies for ${id} ${attempts.serialize === 0 ? '' : 'retrying'}`)
           if (attempts.serialize === 0) {
             // TODO create placeholder for cmp with error message in placeholder
+            attempts.serialize = MAX_RETRY
             return void cb(err)
           }
           return void setTimeout(() => {
+            attempts.serialize--
             resolve(id, parent, cb)
           }, RETRY_WAIT)
         }
 
         md.push(...deps)
-
+        attempts.serialize = MAX_RETRY
         cb(null, deps[deps.length - 1].id)
       })
       
