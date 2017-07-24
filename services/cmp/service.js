@@ -15,13 +15,13 @@ const service = rifi({
   logLevel: 'debug'
 })
 
-service.component({
+service.export({
   name: 'cmp',
   main: join(__dirname, 'component'),
   transform: [babelify]
 })
 
-service.module({
+service.export({
   name: 'cmp/reducer',
   main: join(__dirname, 'component', 'reducer'),
   transform: [babelify]

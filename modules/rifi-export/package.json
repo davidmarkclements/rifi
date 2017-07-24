@@ -1,10 +1,11 @@
 {
-  "name": "rifi-component",
+  "name": "rifi-export",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*.js",
+    "cov": "tap --cov test/*.js"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "upring-pubsub": "^0.2.2"
   },
   "devDependencies": {
-    "tap": "^10.7.0"
+    "tap": "^10.7.0",
+    "upring": "^0.19.0"
   }
 }

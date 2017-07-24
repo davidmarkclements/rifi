@@ -15,25 +15,25 @@ const service = rifi({
   logLevel: 'debug'
 })
 
-service.view({  
+service.export({  
   name: 'index',
   main: join(__dirname, 'server'),
   transform: [babelify]
 })
 
-service.app({
+service.export({
   name: 'app',
   main: join(__dirname, 'client'),
   transform: [babelify]
 })
 
-service.module({
+service.export({
   name: 'constants',
   main: join(__dirname, 'constants'),
   transform: [babelify]
 })
 
-service.module({
+service.export({
   name: 'react', 
   main: require.resolve('react')
 })

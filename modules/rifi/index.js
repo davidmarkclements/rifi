@@ -3,7 +3,7 @@
 const upring = require('upring')
 const sync = require('rifi-sync')
 const create = {
-  component: require('rifi-component'),
+  export: require('rifi-export'),
   load: require('rifi-load'),
   bundle: require('rifi-bundle'),
   render: require('rifi-render')
@@ -32,17 +32,14 @@ function rifi (opts = {}) {
     config.port = opts.port 
     config.hashring.port = opts.port
   }
-  const peer = upring(config)
+  const peer = opts.peer || upring(config)
   peer.logger.level = opts.logLevel || 'info'
 
   const logger = peer.logger.child({MODULE})
 
   const store = new Map()
 
-  const component = create.component(peer, store)
-  const view = component
-  const app = component
-  const module = component
+  const _export = create.export(peer, store)
   const load = create.load(peer, store)
   const bundle = create.bundle(peer, store)
   const render = create.render(peer, store)
@@ -52,10 +49,7 @@ function rifi (opts = {}) {
     logger,
     peer,
     store,
-    view,
-    module,
-    app,
-    component,
+    export: _export,
     load,
     bundle,
     render

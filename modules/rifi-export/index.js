@@ -8,19 +8,19 @@ const through = require('through2')
 const create = {
   load: require('rifi-load')
 }
-const MODULE = 'rifi-component'
+const MODULE = 'rifi-export'
 const MAX_RETRY = 5
 const RETRY_WAIT = 500
 
-module.exports = rifiComponent
+module.exports = rifiExport
 
-function rifiComponent (peer, store) {
+function rifiExport (peer, store) {
 
-  const ps = pubsub({upring: peer})
+  const ps = peer.pubsub || pubsub({upring: peer})
 
   const load = create.load(peer, store)
 
-  return function component (opts) {
+  return function _export (opts) {
     
     const {name, main, transform = [], globalTransform = []} = opts
 
@@ -28,7 +28,7 @@ function rifiComponent (peer, store) {
 
     if (peer.isReady === false) {
       logger.debug('waiting for peer to be ready')
-      peer.once('up', () => component(opts))
+      peer.once('up', () => _export(opts))
       return
     }
 

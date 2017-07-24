@@ -15,7 +15,7 @@ const service = rifi({
   logLevel: 'debug'
 })
 
-service.component({
+service.export({
   name: 'child-cmp',
   main: join(__dirname, 'component'),
   transform: [babelify]
