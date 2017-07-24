@@ -5,9 +5,7 @@ const MODULE = 'rifi-load'
 module.exports = rifiLoad
 
 function rifiLoad (peer, cache) {
-
   return function load (name, cb) {
-
     const logger = peer.logger.child({MODULE, component: name})
 
     if (peer.isReady === false) {
@@ -33,12 +31,12 @@ function rifiLoad (peer, cache) {
 
     peer.request(ptn, (err, result) => {
       if (err) {
-        const { stack } = err 
+        const { stack } = err
         const type = 'error'
-        const { key, ns, cmd, name} = ptn
+        const { key, ns, cmd, name } = ptn
         logger.error(
           {key, ns, cmd, name, type, stack},
-          `problem loading ${name}`, 
+          `problem loading ${name}`,
         ptn)
         cb(err)
         return
@@ -49,7 +47,5 @@ function rifiLoad (peer, cache) {
 
       cb(null, result && result.deps)
     })
- 
   }
-
 }

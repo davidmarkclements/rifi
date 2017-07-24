@@ -1,0 +1,21 @@
+{
+  "name": "child-cmp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "component",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "date-time": "^2.1.0",
+    "react": "^15.6.1",
+    "rifi": "file:../../../../modules/rifi",
+    "styled-components": "^2.1.1"
+  }
+}

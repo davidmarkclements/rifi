@@ -1,0 +1,49 @@
+{
+  "name": "rifi-monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "postinstall": "lerna boostrap",
+    "clean": "lerna clean",
+    "release": "lerna publish",
+    "lint": "echo 'linting...' && standard | snazzy",
+    "test": "tap 'modules/*/test/*.js' --branches=90 --statements=90 --functions=90 --lines=90 2>/dev/null",
+    "check": "npm run test && npm run lint",
+    "ci": "npm install && npm run check",
+    "coverage": "npm run test -- --cov --coverage-report=html",
+    "coveralls": "npm run test -- --cov --coverage-report=text-lcov | coveralls"
+  },
+  "nyc": {
+    "exclude": [
+      "**/test/**/*.js"
+    ]
+  },
+  "pre-commit": [
+    "check"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidmarkclements/rifi-poc.git"
+  },
+  "author": "David Mark Clements <huperekehchuno@googlemail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidmarkclements/rifi-poc/issues"
+  },
+  "homepage": "https://github.com/davidmarkclements/rifi-poc#readme",
+  "devDependencies": {
+    "coveralls": "^2.13.1",
+    "lerna": "^2.0.0",
+    "pre-commit": "^1.2.2",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.2",
+    "tap": "^10.7.0"
+  }
+}

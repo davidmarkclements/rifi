@@ -8,14 +8,15 @@ const create = {
   load: require('rifi-load')
 }
 
+// this is way faster than using vm.runInThisContext and essentially equivalent
+const run = Function
+
 const MODULE = 'rifi-render'
 
-module.exports = rifiRender 
+module.exports = rifiRender
 
 function rifiRender (peer, store) {
-
   return function render (name, cb) {
-    
     const logger = peer.logger.child({MODULE, component: name})
 
     if (peer.isReady === false) {
@@ -39,8 +40,8 @@ function rifiRender (peer, store) {
         }
 
         const bundle = js.map((b) => b.toString()).join('')
-        const req = Function(`return ${bundle}`)()
-        const view = req(deps[deps.length-1].id)
+        const req = run(`return ${bundle}`)()
+        const view = req(deps[deps.length - 1].id)
         const html = view()
 
         cb(null, html)
@@ -51,6 +52,4 @@ function rifiRender (peer, store) {
       packer.end()
     })
   }
-
-
 }

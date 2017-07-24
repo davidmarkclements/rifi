@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "rifi-bundle": "file:../rifi-bundle",
-    "rifi-export": "file:../rifi-export",
+    "rifi-exports": "file:../rifi-exports",
     "rifi-load": "file:../rifi-load",
     "rifi-render": "file:../rifi-render",
     "rifi-sync": "file:../rifi-sync",

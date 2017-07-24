@@ -8,10 +8,9 @@ const create = {
 
 const MODULE = 'rifi-bundle'
 
-module.exports = rifiBundle 
+module.exports = rifiBundle
 
-function rifiBundle(peer, cache) {
-   
+function rifiBundle (peer, cache) {
   return function bundle (name, cb) {
     const logger = peer.logger.child({MODULE, component: name})
 
@@ -29,10 +28,10 @@ function rifiBundle(peer, cache) {
         return void cb(err)
       }
       logger.debug('transforming dependencies into bundle')
-      const head = deps[deps.length -1].id
+      const head = deps[deps.length - 1].id
       const packer = pack({
-        raw: true, 
-        standalone: head, 
+        raw: true,
+        standalone: head,
         standaloneModule: head
       })
       cb(null, packer)
@@ -42,6 +41,4 @@ function rifiBundle(peer, cache) {
       packer.end()
     })
   }
-
-
 }

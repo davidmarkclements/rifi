@@ -1,11 +1,10 @@
 'use strict'
 
 const MODULE = 'rifi-sync'
-const NS='rifi'
 
-module.exports = rifiSync 
+module.exports = rifiSync
 
-function rifiSync(peer, cache) {
+function rifiSync (peer, cache) {
   if (peer.isReady === false) {
     peer.once('up', () => rifiSync(peer, cache))
     return
@@ -28,7 +27,7 @@ function rifiSync(peer, cache) {
   })
 
   peer.add('ns:rifi,cmd:upload', (req, reply) => {
-    const {key, ns, cmd, name, deps} = req
+    const {key, ns, name, deps} = req
     const logger = peer.logger.child({MODULE, component: name})
     logger.debug(`adding deps for ${name} component`)
     logger.trace({name, deps}, `adding deps for ${name} component`)
@@ -38,19 +37,19 @@ function rifiSync(peer, cache) {
       logger.warn('no peers to replicate to!')
       return void reply(null, {ok: true, status: 'uploaded-not-replicated'})
     }
-    
+
     peer.peerConn(nextPeer).request({
       ns,
       cmd: 'replicate',
       name,
-      deps 
+      deps
     }, (err, result) => {
       if (err) {
         logger.warn(err, 'unable to replicate!')
         return void reply(null, {ok: true, status: 'uploaded-not-replicated'})
       }
       reply(null, {ok: true, status: 'uploaded-and-replicated'})
-    })    
+    })
   })
 
   peer.add('ns:rifi,cmd:load', (req, reply) => {
