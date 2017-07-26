@@ -19,19 +19,7 @@ rifi.serve = (opts = {}) => {
 }
 
 function rifi (opts = {}) {
-  const config = {
-    logger: opts.logger,
-    client: opts.client,
-    hashring: opts.hashring || {}
-  }
-  if (opts.join) {
-    config.base = opts.join
-  }
-  if (opts.port) {
-    config.port = opts.port
-    config.hashring.port = opts.port
-  }
-  const peer = opts.peer || upring(config)
+  const peer = opts.peer || createPeer(opts)
   peer.logger.level = opts.logLevel || 'info'
 
   const logger = peer.logger.child({MODULE})
@@ -42,15 +30,24 @@ function rifi (opts = {}) {
   const load = create.load(peer, store)
   const bundle = create.bundle(peer, store)
   const render = create.render(peer, store)
+  const close = (cb) => peer.ready(() => peer.close(cb))
   sync(peer, store)
 
-  return {
-    logger,
-    peer,
-    store,
-    exports,
-    load,
-    bundle,
-    render
+  return { logger, peer, store, exports, load, bundle, render, close }
+}
+
+function createPeer (opts) {
+  const config = {
+    logger: opts.logger,
+    client: opts.client,
+    hashring: opts.hashring || {}
   }
+  if (opts.join) {
+    config.base = opts.join
+  }
+  if (opts.port) {
+    config.port = opts.port
+    config.hashring.port = config.hashring.port || opts.port
+  }
+  return upring(config)
 }

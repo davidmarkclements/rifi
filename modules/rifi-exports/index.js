@@ -13,6 +13,7 @@ const MAX_RETRY = 5
 const RETRY_WAIT = 500
 
 module.exports = rifiExports
+rifiExports.constants = { MODULE, MAX_RETRY, RETRY_WAIT }
 
 function rifiExports (peer, store) {
   const ps = peer.pubsub || pubsub({upring: peer})
@@ -30,36 +31,40 @@ function rifiExports (peer, store) {
       return
     }
 
-    logger.debug(`registering new component: ${name}`)
+    logger.debug(`registering new dependency: ${name}`)
 
     logger.debug(`serializing dependencies: ${name}`)
 
     const attempts = {upload: MAX_RETRY, serialize: MAX_RETRY}
 
-    function retryUpload () {
-      logger.debug('retrying component upload')
-      attempts.upload--
-      if (attempts.upload === 0) {
-        logger.fatal('FATAL: UNABLE TO UPLOAD COMPONENT')
-        process.exit(1)
-      }
-      setTimeout(exports, RETRY_WAIT, opts)
-    }
-
-    const md = mdeps({ resolve, transform, globalTransform })
+    const md = mdeps({ resolve, transform, globalTransform, cache: {} })
     const deps = []
     const children = []
 
+    function bail (err) {
+      peer.emit('error', err)
+    }
+
+    md.once('error', (err) => {
+      logger.fatal('FATAL: UNABLE TO SERIALIZE DEPENDENCY', err)
+      bail(err)
+    })
+
     pump(md, through.obj((o, _, cb) => {
+      // entry is not reliable and gets in the way
+      if (o.entry) delete o.entry // consider: to-fast-properties
       deps.push(o)
       cb()
-    }), (err) => {
+    }), upload)
+
+    function upload (err) {
+      attempts.upload--
       if (err) {
-        logger.error(err, `problem serializing dependencies of component: ${name}`)
+        logger.error(err, `problem serializing dependencies of ${name}`)
         return
       }
 
-      logger.debug(`making component dependencies available from current process: ${name}`)
+      logger.debug(`making dependencies available from current process: ${name}`)
 
       store.set(name, deps)
 
@@ -71,69 +76,67 @@ function rifiExports (peer, store) {
         deps: deps
       }
 
-      logger.debug(`uploading component dependencies: ${name}`)
+      logger.debug(`uploading dependencies: ${name}`)
 
       peer.request(ptn, (err, result) => {
         if (err) {
-          logger.error(err, `problem uploading component dependencies: ${name}`)
-          return void retryUpload()
+          logger.error(err, `problem uploading dependencies: ${name}`)
+          return void retryUpload(err)
         }
         if (!result) {
-          logger.error(`empty response to component dependencies upload: ${name}`)
+          logger.error(`empty response to dependencies upload: ${name}`)
           return void retryUpload()
         }
         if (result.ok !== true) {
-          logger.error(result, `problem uploading component dependencies: ${name}`)
+          logger.error(result, `problem uploading dependencies: ${name}`)
           return void retryUpload()
         }
-        logger.info(result, `component dependencies uploaded: ${name}`)
+        logger.info(result, `dependencies uploaded: ${name}`)
 
         // now listen to uploads from children
         // reserialize when a child updates - in future, just patch the dep tree
         children.forEach((child) => {
-          const upload = `upload:${child}`
-          ps.on(upload, function onMessage (msg, cb) {
+          const topic = `upload:${child}`
+          ps.on(topic, function onMessage (msg, cb) {
             exports(opts)
             cb()
-            ps.removeListener(upload, onMessage)
+            ps.removeListener(topic, onMessage)
           })
         })
 
         ps.emit({topic: `upload:${name}`})
       })
-    })
+    }
+
+    function retryUpload (err) {
+      logger.debug('retrying  upload')
+      if (attempts.upload === 0) {
+        logger.fatal('FATAL: UNABLE TO UPLOAD DEPENDENCY', err || '')
+        bail(err || Error('unable to upload'))
+        return
+      }
+      setTimeout(upload, RETRY_WAIT)
+    }
 
     md.end({file: main})
 
     function resolve (id, parent, cb) {
       if (id[0] !== ':') return void bresolve(id, parent, cb)
-      if (attempts.serialize < 0) {
-        return void cb(Error('unable to get depdencies'))
-      }
-      const component = id.substr(1)
-      children.push(component)
-      load(component, (err, deps) => {
-        if (attempts.serialize < 0) {
-          attempts.serialize = MAX_RETRY
-          return void cb(Error('unable to get depdencies'))
-        }
-
+      const dependency = id.substr(1)
+      load(dependency, (err, deps) => {
         if (err) {
-          logger.error(err, `unable to get dependencies for ${id} ${attempts.serialize === 0 ? '' : 'retrying'}`)
-          if (attempts.serialize === 0) {
-            // TODO create placeholder for cmp with error message in placeholder
+          logger.error(err, `unable to get dependencies for ${id} retrying`)
+          attempts.serialize--
+          if (attempts.serialize < 1) {
             attempts.serialize = MAX_RETRY
             return void cb(err)
           }
-          return void setTimeout(() => {
-            attempts.serialize--
-            resolve(id, parent, cb)
-          }, RETRY_WAIT)
+          return void setTimeout(resolve, RETRY_WAIT, id, parent, cb)
         }
-
-        md.push(...deps)
+        children.push(dependency)
+        deps.forEach((dep) => { md.cache[dep.file] = dep })
         attempts.serialize = MAX_RETRY
-        cb(null, deps[deps.length - 1].id)
+        cb(null, deps[deps.length - 1].file)
       })
     }
   }

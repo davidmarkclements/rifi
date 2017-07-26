@@ -10,7 +10,7 @@ const MODULE = 'rifi-bundle'
 
 module.exports = rifiBundle
 
-function rifiBundle (peer, cache) {
+function rifiBundle (peer, store) {
   return function bundle (name, cb) {
     const logger = peer.logger.child({MODULE, component: name})
 
@@ -20,7 +20,7 @@ function rifiBundle (peer, cache) {
       return
     }
 
-    const load = create.load(peer, cache)
+    const load = create.load(peer, store)
     logger.debug('loading component so it can be bundled')
     load(name, (err, deps) => {
       if (err) {

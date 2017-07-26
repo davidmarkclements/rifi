@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "echo 'apply npm install' | fuge shell"
+    "postinstall": "echo 'apply npm install' | fuge shell",
+    "clean": "echo 'apply rm -fr node_modules' | fuge shell"
   },
   "keywords": [],
   "author": "",

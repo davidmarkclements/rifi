@@ -1,18 +1,26 @@
 {
   "name": "rifi-load",
   "version": "0.0.0",
-  "description": "",
+  "description": "The loading part of rifi, the distributed module system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tap test"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "author": "David Mark Clements <huperekchuno@googlemail.com>",
+  "license": "MIT",
   "dependencies": {
     "browser-pack": "^6.0.2",
     "ndjson": "^1.5.0",
     "through2": "^2.0.3",
     "upring": "^0.16.0"
+  },
+  "devDependencies": {
+    "pino": "^4.7.1",
+    "proxyquire": "^1.8.0",
+    "tap": "^10.7.0"
   }
 }

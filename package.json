@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "scripts": {
     "postinstall": "lerna boostrap",
@@ -32,7 +32,7 @@
     "type": "git",
     "url": "git+https://github.com/davidmarkclements/rifi-poc.git"
   },
-  "author": "David Mark Clements <huperekehchuno@googlemail.com>",
+  "author": "David Mark Clements <huperekchuno@googlemail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/davidmarkclements/rifi-poc/issues"

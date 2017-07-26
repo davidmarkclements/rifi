@@ -34,21 +34,19 @@ function rifiRender (peer, store) {
       pump(packer, through((buffer, _, next) => {
         js.push(buffer)
         next()
-      }), (err) => {
-        if (err) {
-          return void cb(err)
-        }
-
+      }), () => {
+        // note: there's no error handling here because
+        // there's no occasions where nodepack emits an error
+        // and no other cases where a pipeline error occurs in
+        // this current pipeline
         const bundle = js.map((b) => b.toString()).join('')
         const req = run(`return ${bundle}`)()
         const view = req(deps[deps.length - 1].id)
         const html = view()
-
         cb(null, html)
       })
 
       deps.forEach((dep) => packer.write(dep))
-
       packer.end()
     })
   }

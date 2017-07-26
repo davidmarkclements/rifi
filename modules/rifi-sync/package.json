@@ -1,14 +1,21 @@
 {
   "name": "rifi-sync",
   "version": "0.0.0",
-  "description": "",
+  "description": "The synchronizing part of rifi, the distributed module system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tap test"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "author": "David Mark Clements <huperekchuno@googlemail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "pino": "^4.7.1",
+    "proxyquire": "^1.8.0",
+    "tap": "^10.7.0"
   }
 }

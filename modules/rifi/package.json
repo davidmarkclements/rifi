@@ -1,14 +1,17 @@
 {
   "name": "rifi",
   "version": "0.0.0",
-  "description": "",
+  "description": "The distributed module system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tap test"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "author": "David Mark Clements <huperekchuno@googlemail.com>",
+  "license": "MIT",
   "dependencies": {
     "rifi-bundle": "file:../rifi-bundle",
     "rifi-exports": "file:../rifi-exports",
@@ -16,5 +19,11 @@
     "rifi-render": "file:../rifi-render",
     "rifi-sync": "file:../rifi-sync",
     "upring": "^0.16.0"
+  },
+  "devDependencies": {
+    "pino": "^4.7.1",
+    "proxyquire": "^1.8.0",
+    "tap": "^10.7.0",
+    "through2": "^2.0.3"
   }
 }

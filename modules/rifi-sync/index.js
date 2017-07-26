@@ -4,16 +4,16 @@ const MODULE = 'rifi-sync'
 
 module.exports = rifiSync
 
-function rifiSync (peer, cache) {
+function rifiSync (peer, store) {
   if (peer.isReady === false) {
-    peer.once('up', () => rifiSync(peer, cache))
+    peer.once('up', () => rifiSync(peer, store))
     return
   }
 
   peer.add('ns:rifi,cmd:ls', (req, reply) => {
     const logger = peer.logger.child({MODULE})
     logger.debug('supplying list of components for this peer')
-    reply(null, {ok: true, components: Array.from(cache.keys())})
+    reply(null, {ok: true, components: Array.from(store.keys())})
   })
 
   peer.add('ns:rifi,cmd:replicate', (req, reply) => {
@@ -22,7 +22,7 @@ function rifiSync (peer, cache) {
     logger.debug(`adding deps for ${name} component`)
     logger.trace({name, deps}, `adding deps for ${name} component`)
 
-    cache.set(name, deps)
+    store.set(name, deps)
     reply(null, {ok: true, status: 'replicated'})
   })
 
@@ -31,7 +31,8 @@ function rifiSync (peer, cache) {
     const logger = peer.logger.child({MODULE, component: name})
     logger.debug(`adding deps for ${name} component`)
     logger.trace({name, deps}, `adding deps for ${name} component`)
-    cache.set(name, deps)
+    store.set(name, deps)
+
     const nextPeer = peer._hashring.next(key)
     if (nextPeer === null) {
       logger.warn('no peers to replicate to!')
@@ -53,29 +54,28 @@ function rifiSync (peer, cache) {
   })
 
   peer.add('ns:rifi,cmd:load', (req, reply) => {
-    const {key, ns, cmd, name, deps} = req
+    const {key, ns, cmd, name} = req
     const logger = peer.logger.child({MODULE, component: name})
-    if (cache.has(name) === false) {
-      const whoami = peer.whoami()
-      const _peerTrace = req._peerTrace || []
-      _peerTrace.push(peer.whoami())
-      const nextPeer = peer._hashring.next(key, _peerTrace)
-      if (nextPeer === null) {
-        logger.warn(`cannot locate deps for ${name} in hashring`)
-        reply(Error(`${name} not found`))
-        return
-      }
-      logger.debug(`no deps for ${name} on ${whoami}, trying next peer ${nextPeer.id}`)
-      peer.peerConn(nextPeer).request({key, ns, cmd, name, deps, _peerTrace}, (err, result) => {
-        if (err) {
-          logger.error(err, 'proxy request to next peer attempt failed')
-          reply(err)
-          return
-        }
-        reply(null, result)
-      })
-      return
+
+    if (store.has(name) === true) {
+      return void reply(null, {name, deps: store.get(name)})
     }
-    reply(null, {name, deps: cache.get(name)})
+
+    const whoami = peer.whoami()
+    const _peerTrace = req._peerTrace || []
+    _peerTrace.push(peer.whoami())
+    const nextPeer = peer._hashring.next(key, _peerTrace)
+    if (nextPeer === null) {
+      logger.warn(`cannot locate deps for ${name} in hashring`)
+      return void reply(Error(`${name} not found`))
+    }
+    logger.debug(`no deps for ${name} on ${whoami}, trying next peer ${nextPeer.id}`)
+    peer.peerConn(nextPeer).request({key, ns, cmd, name, _peerTrace}, (err, result) => {
+      if (err) {
+        logger.error(err, 'proxy request to next peer attempt failed')
+        return void reply(err)
+      }
+      reply(null, result)
+    })
   })
 }

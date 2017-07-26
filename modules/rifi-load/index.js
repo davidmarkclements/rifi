@@ -4,13 +4,19 @@ const MODULE = 'rifi-load'
 
 module.exports = rifiLoad
 
-function rifiLoad (peer, cache) {
+function rifiLoad (peer, store) {
   return function load (name, cb) {
     const logger = peer.logger.child({MODULE, component: name})
 
     if (peer.isReady === false) {
       logger.debug('waiting for peer to be ready')
       peer.once('up', () => load(name, cb))
+      return
+    }
+
+    if (store.has(name)) {
+      logger.debug(`found dependency in local store (${name})`)
+      cb(null, store.get(name))
       return
     }
 
@@ -21,13 +27,7 @@ function rifiLoad (peer, cache) {
       name: name
     }
 
-    logger.debug(ptn, `making component request for ${name}`)
-
-    if (cache.has(name)) {
-      logger.debug(`found component in local cache (${name})`)
-      cb(null, cache.get(name))
-      return
-    }
+    logger.debug(ptn, `making dependency request for ${name}`)
 
     peer.request(ptn, (err, result) => {
       if (err) {
@@ -42,8 +42,8 @@ function rifiLoad (peer, cache) {
         return
       }
 
-      logger.debug(`got component response for ${name}`)
-      logger.trace(result, `got component response for ${name}`)
+      logger.debug(`got dependency response for ${name}`)
+      logger.trace(result, `got dependency response for ${name}`)
 
       cb(null, result && result.deps)
     })
