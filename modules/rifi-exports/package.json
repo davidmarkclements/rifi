@@ -10,8 +10,16 @@
   "engines": {
     "node": ">=8.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidmarkclements/rifi.git"
+  },
   "author": "David Mark Clements <huperekchuno@googlemail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidmarkclements/rifi/issues"
+  },
+  "homepage": "https://github.com/davidmarkclements/rifi#readme",
   "dependencies": {
     "browser-resolve": "^1.11.2",
     "module-deps": "^4.1.1",

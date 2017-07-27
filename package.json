@@ -1,6 +1,6 @@
 {
   "name": "rifi-monorepo",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -29,14 +29,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davidmarkclements/rifi-poc.git"
+    "url": "git+https://github.com/davidmarkclements/rifi.git"
   },
   "author": "David Mark Clements <huperekchuno@googlemail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/davidmarkclements/rifi-poc/issues"
+    "url": "https://github.com/davidmarkclements/rifi/issues"
   },
-  "homepage": "https://github.com/davidmarkclements/rifi-poc#readme",
+  "homepage": "https://github.com/davidmarkclements/rifi#readme",
   "devDependencies": {
     "coveralls": "^2.13.1",
     "lerna": "^2.0.0",

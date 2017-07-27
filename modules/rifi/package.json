@@ -10,8 +10,16 @@
   "engines": {
     "node": ">=8.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidmarkclements/rifi.git"
+  },
   "author": "David Mark Clements <huperekchuno@googlemail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidmarkclements/rifi/issues"
+  },
+  "homepage": "https://github.com/davidmarkclements/rifi#readme",
   "dependencies": {
     "rifi-bundle": "file:../rifi-bundle",
     "rifi-exports": "file:../rifi-exports",
@@ -25,5 +33,8 @@
     "proxyquire": "^1.8.0",
     "tap": "^10.7.0",
     "through2": "^2.0.3"
+  },
+  "directories": {
+    "test": "test"
   }
 }
