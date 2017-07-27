@@ -21,11 +21,11 @@
   },
   "homepage": "https://github.com/davidmarkclements/rifi#readme",
   "dependencies": {
-    "rifi-bundle": "file:../rifi-bundle",
-    "rifi-exports": "file:../rifi-exports",
-    "rifi-load": "file:../rifi-load",
-    "rifi-render": "file:../rifi-render",
-    "rifi-sync": "file:../rifi-sync",
+    "rifi-bundle": "^0.0.1",
+    "rifi-exports": "^0.0.1",
+    "rifi-load": "^0.0.1",
+    "rifi-render": "^0.0.1",
+    "rifi-sync": "^0.0.1",
     "upring": "^0.16.0"
   },
   "devDependencies": {

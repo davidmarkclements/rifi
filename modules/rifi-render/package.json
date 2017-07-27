@@ -23,7 +23,7 @@
     "callback-stream": "^1.1.0",
     "nodepack": "^6.0.3",
     "pump": "^1.0.2",
-    "rifi-load": "file:../rifi-load",
+    "rifi-load": "^0.0.1",
     "through2": "^2.0.3"
   },
   "devDependencies": {
