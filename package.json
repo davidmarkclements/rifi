@@ -16,9 +16,8 @@
     "lint": "echo 'linting...' && standard | snazzy",
     "test": "tap 'modules/*/test/*.js' --branches=90 --statements=90 --functions=90 --lines=90 2>/dev/null",
     "check": "npm run test && npm run lint",
-    "ci": "npm install && npm run check",
-    "coverage": "npm run test -- --cov --coverage-report=html",
-    "coveralls": "npm run test -- --cov --coverage-report=text-lcov | coveralls"
+    "ci": "npm install && npm run lint && npm run coveralls",
+    "coveralls": "tap 'modules/*/test/*.js' --branches=90 --statements=90 --functions=90 --lines=90 --cov --coverage-report=text-lcov | coveralls"
   },
   "nyc": {
     "exclude": [
@@ -42,8 +41,10 @@
     "coveralls": "^2.13.1",
     "lerna": "^2.0.0",
     "pre-commit": "^1.2.2",
+    "proxyquire": "^1.8.0",
     "snazzy": "^7.0.0",
     "standard": "^10.0.2",
-    "tap": "^10.7.0"
+    "tap": "^10.7.0",
+    "through2": "^2.0.3"
   }
 }

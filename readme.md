@@ -1,14 +1,10 @@
-# rifi poc
+# rifi
 
-```sh
-npm install -g fuge
-```
 
-```sh
-fuge shell
-```
 
-```
-> start all
-```
-	
+
+
+
+
+
+
