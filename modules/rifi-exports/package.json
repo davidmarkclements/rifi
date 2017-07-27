@@ -1,6 +1,6 @@
 {
   "name": "rifi-exports",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The exporting part of rifi, the distributed module system",
   "main": "index.js",
   "scripts": {

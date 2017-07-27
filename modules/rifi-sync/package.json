@@ -1,6 +1,6 @@
 {
   "name": "rifi-sync",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The synchronizing part of rifi, the distributed module system",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,6 @@
   "bugs": {
     "url": "https://github.com/davidmarkclements/rifi/issues"
   },
-  "dependencies": {},
   "devDependencies": {
     "pino": "^4.7.1",
     "proxyquire": "^1.8.0",

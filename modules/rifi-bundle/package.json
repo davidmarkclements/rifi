@@ -1,6 +1,6 @@
 {
   "name": "rifi-bundle",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The bundling part of rifi, the distributed module system",
   "main": "index.js",
   "scripts": {

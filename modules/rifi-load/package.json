@@ -1,6 +1,6 @@
 {
   "name": "rifi-load",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The loading part of rifi, the distributed module system",
   "main": "index.js",
   "scripts": {
